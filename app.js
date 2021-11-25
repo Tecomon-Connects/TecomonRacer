@@ -97,7 +97,7 @@ window.onload = () => {
             context.fillStyle = "#000";
             context.font = `${context_object.fontSize}px Verdana`;
             context.fillText(`Wer schafft als`, context_object.fontSize, context_object.fontSize * 2);
-            context.fillText(`erster ${maxRunden} Runden ?`, context_object.fontSize - context_object.fontSize * 0.5, context_object.fontSize * 3.5);
+            context.fillText(`erster ${maxRunden} Runden?`, context_object.fontSize - context_object.fontSize * 0.4, context_object.fontSize * 3.5);
 
             context.resetTransform();
             
