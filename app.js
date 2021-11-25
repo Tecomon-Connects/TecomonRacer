@@ -73,7 +73,6 @@ window.onload = () => {
     function draw() {
         context_object.pre_draw(runden1, runden2, color1, color2);
 
-        console.log(context_object.scale);
         button1.setScale(context_object.scale);
         button2.setScale(context_object.scale);
         car1.setScale(context_object.scale);
