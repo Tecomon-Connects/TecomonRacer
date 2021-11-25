@@ -73,7 +73,7 @@ export function interactive_circle(context_object, x, y, radius = 30, style) {
         if ((touchId === identifier)) {
             let movingMatrix = pointer.getMatrix();  // movingMatrix == T
 
-            if (d < radius) {
+            if (d < radius * context_object.scale) {
                 mx = movingMatrix.e;
                 my = movingMatrix.f;
                 stopMove = false;
