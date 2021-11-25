@@ -457,6 +457,6 @@ export function winGame(context, spieler, color, fontSize, scale) {
 
     context.fillStyle = color;
     context.font = `${fontSize}px Verdana`;
-    context.fillText(`Spieler ${spieler}`, fontSize, fontSize * 2); 
-    context.fillText(`hat gewonnen !`, fontSize, fontSize * 3.5); 
+    context.fillText(`Spieler ${spieler}`, fontSize * 1.1, fontSize * 2); 
+    context.fillText(`hat gewonnen!`, fontSize * 1.1, fontSize * 3.5); 
 }
