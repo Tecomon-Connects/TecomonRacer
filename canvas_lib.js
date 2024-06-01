@@ -448,6 +448,12 @@ export function getCanvas(id, width, height) {
     context.lineWidth = 3; //Linienbreite
     fontSize = 40 * scale;
 
+    //Hintergrund (grün)
+    context.save();
+    context.fillStyle = "#339933";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.restore();
+
     //Text
     context.save();
     context.fillStyle = color1;
