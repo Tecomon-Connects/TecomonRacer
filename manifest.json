@@ -1,0 +1,35 @@
+{
+"name": "Tecomon Racer",
+"short_name": "Tecomon Racer",
+"start_url": "/",
+"display": "standalone",
+"description": "Tecomon Racer is a fun and addictive racing game that will keep you entertained",
+"lang": "de",
+"dir": "auto",
+"theme_color": "#125577",
+"background_color": "#03232e",
+"orientation": "any",
+"icons": [
+    {
+        "src": "/images/512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+    },
+    {
+        "src": "/images/192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+    }
+],
+"screenshots": [
+    {
+        "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
+        "sizes": "2880x1800",
+        "type": "image/png",
+        "description": "A screenshot of the game"
+    }
+],
+"prefer_related_applications": false
+}
