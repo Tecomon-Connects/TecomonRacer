@@ -4,12 +4,43 @@ import { interactive_circle } from "./interaction.js";
 
 navigator.serviceWorker.register("service-worker.js");
 
+var player1 = "";
+var player2 = "";
+let interval = null;
+let started = 0;
+
+function setTime() {
+  const d = new Date();
+  let time =
+    String(d.getTime() - started).slice(-5, -3) +
+    "." +
+    String(d.getTime() - started).slice(-3, -1) +
+    "s";
+  if (time.length == 4) {
+    time = "00" + time;
+  }
+  if (time.length == 5) {
+    time = "0" + time;
+  }
+  document.getElementById("time").innerHTML = time;
+}
+
+document
+  .getElementById("playerForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+    player1 = document.getElementById("player1").value;
+    player2 = document.getElementById("player2").value;
+    // Hier können Sie den Code hinzufügen, um die Spielernamen zu speichern und das Spiel zu starten
+    document.getElementById("startScreen").style.display = "none";
+  });
+
 window.onload = () => {
   let context_object = getCanvas("canvas01");
   let context = context_object.context;
   let runden1 = -1;
   let runden2 = -1;
-  let maxRunden = 2;
+  let maxRunden = 3;
   let color1 = "#b53737";
   let color2 = "#0047ab";
   let car1Goal = false;
@@ -18,6 +49,8 @@ window.onload = () => {
   let startGame = true;
   let animateFrame;
   let grabbable = [];
+
+  let timer = null;
 
   let car1Img = new Image();
   let car1X =
@@ -73,6 +106,11 @@ window.onload = () => {
     let d = distance(ic.mx, ic.my, ic.tx, ic.ty);
 
     if (d > 10) {
+      if (!started) {
+        started = new Date().getTime();
+        console.log("setting interval");
+        interval = setInterval(setTime, 10);
+      }
       let dx = ic.x - ic.mx;
       let dy = ic.y - ic.my;
       this.rotateRadians(Math.atan2(dy, dx) + Math.PI / 2);
@@ -88,6 +126,11 @@ window.onload = () => {
     let d = distance(ic.mx, ic.my, ic.tx, ic.ty);
 
     if (d > 10) {
+      if (!started) {
+        started = new Date().getTime();
+        console.log("setting interval");
+        interval = setInterval(setTime, 10);
+      }
       let dx = ic.x - ic.mx;
       let dy = ic.y - ic.my;
       this.rotateRadians(Math.atan2(dy, dx) + Math.PI / 2);
@@ -102,7 +145,7 @@ window.onload = () => {
   let identity = new DOMMatrix();
 
   function draw() {
-    context_object.pre_draw(runden1, runden2, color1, color2);
+    context_object.pre_draw(player1, player2, runden1, runden2, color1, color2);
 
     button1.setScale(context_object.scale);
     button2.setScale(context_object.scale);
@@ -168,13 +211,21 @@ window.onload = () => {
       if (!context.isPointInPath(context_object.goal, car1.x, car1.y)) {
         runden1++;
         if (runden1 == maxRunden) {
-          context_object.pre_draw(runden1, runden2, color1, color2);
+          context_object.pre_draw(
+            player1,
+            player2,
+            runden1,
+            runden2,
+            color1,
+            color2
+          );
           winGame(
             context,
-            1,
+            player1,
             color1,
             context_object.fontSize,
-            context_object.scale
+            context_object.scale,
+            new Date().getTime() - started
           );
           resetGame();
         }
@@ -185,13 +236,21 @@ window.onload = () => {
       if (!context.isPointInPath(context_object.goal, car2.x, car2.y)) {
         runden2++;
         if (runden2 == maxRunden) {
-          context_object.pre_draw(runden1, runden2, color1, color2);
+          context_object.pre_draw(
+            player1,
+            player2,
+            runden1,
+            runden2,
+            color1,
+            color2
+          );
           winGame(
             context,
-            2,
+            player2,
             color2,
             context_object.fontSize,
-            context_object.scale
+            context_object.scale,
+            new Date().getTime() - started
           );
           resetGame();
         }
@@ -202,9 +261,12 @@ window.onload = () => {
     function resetGame() {
       car1.reset(car1X, car1Y);
       car2.reset(car2X, car2Y);
-      runden1 = 0;
-      runden2 = 0;
+      runden1 = -1;
+      runden2 = -1;
       endGame = true;
+      started = 0;
+      clearInterval(interval);
+      document.getElementById("time").innerHTML = "00.00s";
     }
 
     drawFingers(identity);
@@ -214,6 +276,7 @@ window.onload = () => {
       window.cancelAnimationFrame(animateFrame);
       setTimeout(() => {
         window.requestAnimationFrame(draw);
+        document.getElementById("startScreen").style.display = "flex";
       }, 5000);
       endGame = false;
       startGame = true;
