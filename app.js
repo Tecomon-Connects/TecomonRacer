@@ -223,6 +223,23 @@ window.onload = () => {
       ) {
         startGame = false;
       }
+    } else {
+      // Show the tecomon logo
+      const logoImg = new Image();
+      logoImg.src = "./images/logo.svg";
+
+      logoImg.onload = () => {
+        const logoX = context_object.canvas.width / 2 - logoImg.width / 2;
+        const logoY = context_object.canvas.height / 2 - logoImg.height / 2;
+        context.drawImage(logoImg, logoX, logoY);
+      };
+      context.drawImage(
+        logoImg,
+        context_object.canvas.width / 2 - 100 * context_object.scale,
+        context_object.canvas.height / 2 - 100 * context_object.scale,
+        200 * context_object.scale,
+        200 * context_object.scale
+      );
     }
 
     if (context.isPointInPath(context_object.goal, car1.x, car1.y)) {

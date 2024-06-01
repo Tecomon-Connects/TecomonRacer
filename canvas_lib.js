@@ -339,7 +339,7 @@ export function getCanvas(id, width, height) {
   const drawing_width = width || 1422;
   const drawing_height = height || 800;
   const drawing_aspect_ratio = drawing_width / drawing_height;
-  let pathOut, pathIn, goal;
+  let pathOut, pathIn, pathMid, goal;
 
   // aus https://www.html5rocks.com/en/tutorials/canvas/hidpi/
   // Get the device pixel ratio, falling back to 1.
@@ -467,24 +467,82 @@ export function getCanvas(id, width, height) {
     );
     context.restore();
 
-    //Strecke
-    pathOut = new Path2D();
-    pathOut.rect(
+    //Streckenhintergrund
+    context.save();
+    context.fillStyle = "#424242";
+    context.beginPath();
+    context.roundRect(
       canvas.width / 2 - canvas.width / 3,
       canvas.height / 2 - canvas.height / 3,
       canvas.width / 1.5,
-      canvas.height / 1.5
+      canvas.height / 1.5,
+      10
+    );
+    context.fill();
+
+    context.fillStyle = "#fff";
+    context.beginPath();
+    context.roundRect(
+      canvas.width / 2 - canvas.width / 4 + 50,
+      canvas.height / 2 - canvas.height / 4 + 50,
+      canvas.width / 2 - 100,
+      canvas.height / 2 - 100,
+      10
+    );
+    context.fill();
+    context.restore();
+
+    //Strecke
+    pathOut = new Path2D();
+    pathOut.roundRect(
+      canvas.width / 2 - canvas.width / 3,
+      canvas.height / 2 - canvas.height / 3,
+      canvas.width / 1.5,
+      canvas.height / 1.5,
+      10
     );
     context.stroke(pathOut);
 
     pathIn = new Path2D();
-    pathIn.rect(
+    pathIn.roundRect(
       canvas.width / 2 - canvas.width / 4 + 50,
       canvas.height / 2 - canvas.height / 4 + 50,
       canvas.width / 2 - 100,
-      canvas.height / 2 - 100
+      canvas.height / 2 - 100,
+      10
     );
     context.stroke(pathIn);
+
+    //Mittellinie (gestrichelt)
+    pathMid = new Path2D();
+    pathMid.roundRect(
+      (canvas.width / 2 -
+        canvas.width / 4 +
+        50 -
+        (canvas.width / 2 - canvas.width / 3)) /
+        2 +
+        canvas.width / 2 -
+        canvas.width / 3,
+      (canvas.height / 2 -
+        canvas.height / 4 +
+        50 -
+        (canvas.height / 2 - canvas.height / 3)) /
+        2 +
+        canvas.height / 2 -
+        canvas.height / 3,
+      (canvas.width / 1.5 - (canvas.width / 2 - 100)) / 2 +
+        canvas.width / 2 -
+        100,
+      (canvas.height / 1.5 - (canvas.height / 2 - 100)) / 2 +
+        canvas.height / 2 -
+        100,
+      10
+    );
+    context.save();
+    context.setLineDash([10, 10]);
+    context.strokeStyle = "#ffffff";
+    context.stroke(pathMid);
+    context.restore();
 
     //Ziel
     context.save();
