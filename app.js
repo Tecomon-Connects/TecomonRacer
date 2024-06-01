@@ -25,6 +25,31 @@ function setTime() {
   document.getElementById("time").innerHTML = time;
 }
 
+const loadScoreboard = async () => {
+  document.getElementById("ranking").innerHTML = "Loading...";
+  fetch("/getscoreboard")
+    .then((response) => response.json())
+    .then((data) => {
+      let ranking = "<tr><th>Rank</th><th>Name</th><th>Zeit</th></tr>";
+      data.forEach((element, index) => {
+        let time =
+          element.time.slice(-5, -3) + "." + element.time.slice(-3, -1) + "s";
+        if (time.length == 4) {
+          time = "00" + time;
+        }
+        if (time.length == 5) {
+          time = "0" + time;
+        }
+
+        ranking += `<tr><td>${index + 1}</td><td>${
+          element.name
+        }</td><td>${time}</td></tr>`;
+      });
+      document.getElementById("ranking").innerHTML = ranking;
+    });
+};
+loadScoreboard();
+
 document
   .getElementById("playerForm")
   .addEventListener("submit", function (event) {
@@ -266,6 +291,9 @@ window.onload = () => {
       endGame = true;
       started = 0;
       clearInterval(interval);
+      console.log("huhu");
+      loadScoreboard();
+      console.log("huhu2");
       document.getElementById("time").innerHTML = "00.00s";
     }
 
