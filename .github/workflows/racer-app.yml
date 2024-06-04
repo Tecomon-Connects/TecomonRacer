@@ -1,0 +1,48 @@
+name: 🐳 Build, Push, Deploy Tecomon Racer
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+
+    - name: 🐋 Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: 🐋 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: 🐋 Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with: 
+        registry: ghcr.io
+        username: ${{ secrets.USERNAME_GITHUB_NIKOLAI }}
+        password: ${{ secrets.GHCR_CONTAINER_REGISTRY_NIKOLAI }}
+
+    - name: 🐳 Build and push the Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./
+        file: ./Dockerfile
+        #platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64
+        push: true
+        tags: ghcr.io/nikolai8/racer-app:latest
+        #tags: ghcr.io/${{ github.repository_owner }}/effy-service:v1
+
+    - name: 🔒 Set up SSH Key
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_NIKOLAI_HETZNER }}
+    
+    - name: 🔒 Set up SSH Host
+      run: ssh-keyscan 157.90.122.102 >> ~/.ssh/known_hosts
+
+    - name: 🐳 Restart Deployment Rollout
+      run: ssh root@157.90.122.102 "kubectl rollout restart deployment racer"
