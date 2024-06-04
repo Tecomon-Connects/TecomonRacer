@@ -76,7 +76,6 @@ app.get("/getscoreboard", async (req, res) => {
 
 
 
-
 if (isProd) {
   // create production server
   app.use(express.static('dist'));
