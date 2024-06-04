@@ -2,10 +2,17 @@ import express from "express";
 import ViteExpress from "vite-express";
 import { MongoClient } from "mongodb";
 import { createServer } from 'vite';
+import dotenv from 'dotenv';
 
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// Load environment variables from .env.production file if in production mode
+if (isProd) {
+  dotenv.config({ path: '.env.production' });
+} else {
+  dotenv.config({ path: '.env' });
+}
 
 
 const app = express();
