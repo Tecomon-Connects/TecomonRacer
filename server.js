@@ -31,12 +31,12 @@ app.get("/savescoreboard", async (req, res) => {
     } else if (existing) {
       await collection.updateOne(
         { name: req.query.name },
-        { $set: { time: NumberLong(req.query.time), date: new Date() } }
+        { $set: { time: Number(req.query.time), date: new Date() } }
       );
     } else {
       await collection.insertOne({
         name: req.query.name,
-        time: NumberLong(req.query.time),
+        time: Number(req.query.time),
         date: new Date(),
       });
     }

@@ -33,7 +33,10 @@ const loadScoreboard = async () => {
       let ranking = "<tr><th>Rank</th><th>Name</th><th>Zeit</th></tr>";
       data.forEach((element, index) => {
         let time =
-          element.time.slice(-5, -3) + "." + element.time.slice(-3, -1) + "s";
+          String(element.time).slice(-5, -3) +
+          "." +
+          String(element.time).slice(-3, -1) +
+          "s";
         if (time.length == 4) {
           time = "00" + time;
         }
