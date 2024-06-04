@@ -1,11 +1,19 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import { MongoClient } from "mongodb";
+import { createServer } from 'vite';
+
+
+const isProd = process.env.NODE_ENV === 'production';
+
+
 
 const app = express();
 const client = new MongoClient(
   process.env.MONGO_URI || "mongodb://localhost:27017"
 );
+
+
 
 app.get("/savescoreboard", async (req, res) => {
   if (!req.query.name || !req.query.time) {
@@ -58,4 +66,28 @@ app.get("/getscoreboard", async (req, res) => {
   }
 });
 
-ViteExpress.listen(app, 3000, () => console.log("Server is listening..."));
+
+
+
+
+if (isProd) {
+  // create production server
+  app.use(express.static('dist'));
+
+  app.listen(3000, () => {
+    console.log('Production Server started at port 3000');
+  });
+} else {
+  createServer({
+    server: { middlewareMode: 'html' }
+  }).then(vite => {
+    app.use(vite.middlewares);
+  });
+
+  app.listen(3000, () => {
+    console.log('Dev Server started at port 3000');
+  });
+}
+
+
+
