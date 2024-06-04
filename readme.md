@@ -1,3 +1,4 @@
+[![🐳 Build, Push, Deploy Tecomon Racer](https://github.com/Tecomon-Connects/TecomonRacer/actions/workflows/racer-app.yml/badge.svg)](https://github.com/Tecomon-Connects/TecomonRacer/actions/workflows/racer-app.yml)
 # Tecomon Racer
 
 Tecomon Racer is an exciting racing game where players can race against each other using their favorite Tecomon characters.
