@@ -2,6 +2,10 @@
 import { TouchInteraction } from "./touch.js";
 import { interactive_circle } from "./interaction.js";
 
+import car1Url from "./images/car1.png";
+import car2Url from "./images/car2.png";
+import logoUrl from "./images/logo.svg";
+
 navigator.serviceWorker.register("service-worker.js");
 
 var player1 = "";
@@ -99,9 +103,9 @@ window.onload = () => {
     context_object.canvas.height / 2 -
     context_object.canvas.height / 3 +
     75 * context_object.scale;
-  car1Img.src = "./images/car1.png";
+  car1Img.src = car1Url;
   let car2Img = new Image();
-  car2Img.src = "./images/car2.png";
+  car2Img.src = car2Url;
 
   let car1 = imgCar(context_object, car1Img, car1X, car1Y);
   let car2 = imgCar(context_object, car2Img, car2X, car2Y);
@@ -229,7 +233,7 @@ window.onload = () => {
     } else {
       // Show the tecomon logo
       const logoImg = new Image();
-      logoImg.src = "./images/logo.svg";
+      logoImg.src = logoUrl;
 
       logoImg.onload = () => {
         const logoX = context_object.canvas.width / 2 - logoImg.width / 2;
