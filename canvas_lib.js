@@ -584,6 +584,8 @@ export function distance(x1, y1, x2, y2) {
 }
 
 export function winGame(context, spieler, color, fontSize, scale, time) {
+  console.log("time");
+  console.log(time);
   let timeString =
     String(time).slice(-5, -3) + "." + String(time).slice(-3, -1);
   if (timeString.length == 3) {
@@ -593,12 +595,15 @@ export function winGame(context, spieler, color, fontSize, scale, time) {
     timeString = "0" + timeString;
   }
 
+  console.log("timeString");
+  console.log(timeString);
+
   context.fillStyle = "#eee";
   context.roundRect(
     context.canvas.width / 2 - 200 * scale,
-    context.canvas.height / 2 - 100 * scale,
+    context.canvas.height / 2 - 125 * scale,
     400 * scale,
-    200 * scale,
+    250 * scale,
     20
   );
   context.fill();
@@ -611,9 +616,9 @@ export function winGame(context, spieler, color, fontSize, scale, time) {
   context.font = `${fontSize}px Verdana`;
   context.fillText(`${spieler}`, fontSize * 1.1, fontSize * 2);
   context.fillText(`hat gewonnen!`, fontSize * 1.1, fontSize * 3.5);
-  context.fillText(`in ${timeString} Sekunden`, fontSize * 1.1, fontSize * 5);
+  context.fillText(`in ${timeString}s`, fontSize * 1.1, fontSize * 5);
 
-  fetch(`/savescoreboard?name=${spieler}&time=${time}`)
+  fetch(`/api/savescoreboard?name=${spieler}&time=${time}`)
     .then((res) => res.text())
     .then((data) => console.log(data));
 }

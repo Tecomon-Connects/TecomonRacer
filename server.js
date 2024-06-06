@@ -1,28 +1,24 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import { MongoClient } from "mongodb";
-import { createServer } from 'vite';
-import dotenv from 'dotenv';
+import { createServer } from "vite";
+import dotenv from "dotenv";
 
-
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === "production";
 
 // Load environment variables from .env.production file if in production mode
 if (isProd) {
-  dotenv.config({ path: '.env.production' });
+  dotenv.config({ path: ".env.production" });
 } else {
-  dotenv.config({ path: '.env' });
+  dotenv.config({ path: ".env" });
 }
-
 
 const app = express();
 const client = new MongoClient(
   process.env.MONGO_URI || "mongodb://localhost:27017"
 );
 
-
-
-app.get("/savescoreboard", async (req, res) => {
+app.get("/api/savescoreboard", async (req, res) => {
   if (!req.query.name || !req.query.time) {
     res.send("Invalid request");
     return;
@@ -55,7 +51,7 @@ app.get("/savescoreboard", async (req, res) => {
   res.send("Saved to scoreboard");
 });
 
-app.get("/getscoreboard", async (req, res) => {
+app.get("/api/getscoreboard", async (req, res) => {
   try {
     await client.connect();
     const database = client.db("scoreboard");
@@ -73,27 +69,21 @@ app.get("/getscoreboard", async (req, res) => {
   }
 });
 
-
-
-
 if (isProd) {
   // create production server
-  app.use(express.static('dist'));
+  app.use(express.static("dist"));
 
   app.listen(3000, () => {
-    console.log('Production Server started at port 3000');
+    console.log("Production Server started at port 3000");
   });
 } else {
   createServer({
-    server: { middlewareMode: 'html' }
-  }).then(vite => {
+    server: { middlewareMode: "html" },
+  }).then((vite) => {
     app.use(vite.middlewares);
   });
 
   app.listen(3000, () => {
-    console.log('Dev Server started at port 3000');
+    console.log("Dev Server started at port 3000");
   });
 }
-
-
-

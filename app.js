@@ -2,6 +2,10 @@
 import { TouchInteraction } from "./touch.js";
 import { interactive_circle } from "./interaction.js";
 
+import car1Url from "./images/car1.png";
+import car2Url from "./images/car2.png";
+import logoUrl from "./images/logo.png";
+
 navigator.serviceWorker.register("service-worker.js");
 
 var player1 = "";
@@ -27,7 +31,7 @@ function setTime() {
 
 const loadScoreboard = async () => {
   document.getElementById("ranking").innerHTML = "Loading...";
-  fetch("/getscoreboard")
+  fetch("/api/getscoreboard")
     .then((response) => response.json())
     .then((data) => {
       let ranking = "<tr><th>Rank</th><th>Name</th><th>Zeit</th></tr>";
@@ -51,19 +55,17 @@ const loadScoreboard = async () => {
       document.getElementById("ranking").innerHTML = ranking;
     });
 };
-loadScoreboard();
 
-document
-  .getElementById("playerForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    player1 = document.getElementById("player1").value;
-    player2 = document.getElementById("player2").value;
-    // Hier können Sie den Code hinzufügen, um die Spielernamen zu speichern und das Spiel zu starten
-    document.getElementById("startScreen").style.display = "none";
-  });
+document.getElementById("playerForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  player1 = document.getElementById("player1").value;
+  player2 = document.getElementById("player2").value;
+  // Hier können Sie den Code hinzufügen, um die Spielernamen zu speichern und das Spiel zu starten
+  document.getElementById("startScreen").style.display = "none";
+  loadGame();
+});
 
-window.onload = () => {
+const loadGame = () => {
   let context_object = getCanvas("canvas01");
   let context = context_object.context;
   let runden1 = -1;
@@ -99,9 +101,12 @@ window.onload = () => {
     context_object.canvas.height / 2 -
     context_object.canvas.height / 3 +
     75 * context_object.scale;
-  car1Img.src = "./images/car1.png";
+  car1Img.src = car1Url;
   let car2Img = new Image();
-  car2Img.src = "./images/car2.png";
+  car2Img.src = car2Url;
+
+  let logoImg = new Image();
+  logoImg.src = logoUrl;
 
   let car1 = imgCar(context_object, car1Img, car1X, car1Y);
   let car2 = imgCar(context_object, car2Img, car2X, car2Y);
@@ -228,8 +233,6 @@ window.onload = () => {
       }
     } else {
       // Show the tecomon logo
-      const logoImg = new Image();
-      logoImg.src = "./images/logo.svg";
 
       logoImg.onload = () => {
         const logoX = context_object.canvas.width / 2 - logoImg.width / 2;
@@ -325,6 +328,7 @@ window.onload = () => {
       setTimeout(() => {
         window.requestAnimationFrame(draw);
         document.getElementById("startScreen").style.display = "flex";
+        window.location.reload();
       }, 5000);
       endGame = false;
       startGame = true;
@@ -332,3 +336,5 @@ window.onload = () => {
   }
   draw();
 };
+
+loadScoreboard();
