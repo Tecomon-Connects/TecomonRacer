@@ -10,7 +10,6 @@ self.addEventListener("install", (event) => {
         "/touch.js",
         "/app.js",
         "/canvas_lib.js",
-        "/logo.svg",
       ]);
     })
   );
