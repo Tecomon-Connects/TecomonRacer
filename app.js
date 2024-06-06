@@ -31,7 +31,7 @@ function setTime() {
 
 const loadScoreboard = async () => {
   document.getElementById("ranking").innerHTML = "Loading...";
-  fetch("/getscoreboard")
+  fetch("/api/getscoreboard")
     .then((response) => response.json())
     .then((data) => {
       let ranking = "<tr><th>Rank</th><th>Name</th><th>Zeit</th></tr>";
@@ -55,19 +55,17 @@ const loadScoreboard = async () => {
       document.getElementById("ranking").innerHTML = ranking;
     });
 };
-loadScoreboard();
 
-document
-  .getElementById("playerForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    player1 = document.getElementById("player1").value;
-    player2 = document.getElementById("player2").value;
-    // Hier können Sie den Code hinzufügen, um die Spielernamen zu speichern und das Spiel zu starten
-    document.getElementById("startScreen").style.display = "none";
-  });
+document.getElementById("playerForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  player1 = document.getElementById("player1").value;
+  player2 = document.getElementById("player2").value;
+  // Hier können Sie den Code hinzufügen, um die Spielernamen zu speichern und das Spiel zu starten
+  document.getElementById("startScreen").style.display = "none";
+  loadGame();
+});
 
-window.onload = () => {
+const loadGame = () => {
   let context_object = getCanvas("canvas01");
   let context = context_object.context;
   let runden1 = -1;
@@ -329,6 +327,7 @@ window.onload = () => {
       setTimeout(() => {
         window.requestAnimationFrame(draw);
         document.getElementById("startScreen").style.display = "flex";
+        window.location.reload();
       }, 5000);
       endGame = false;
       startGame = true;
@@ -336,3 +335,5 @@ window.onload = () => {
   }
   draw();
 };
+
+loadScoreboard();
