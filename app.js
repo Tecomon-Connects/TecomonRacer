@@ -60,9 +60,12 @@ document.getElementById("playerForm").addEventListener("submit", (event) => {
   event.preventDefault();
   player1 = document.getElementById("player1").value;
   player2 = document.getElementById("player2").value;
-  // Hier können Sie den Code hinzufügen, um die Spielernamen zu speichern und das Spiel zu starten
-  document.getElementById("startScreen").style.display = "none";
-  loadGame();
+
+  // Dirty fix to prevent the rendering of the game before the keyboard is closed
+  setTimeout(() => {
+    document.getElementById("startScreen").style.display = "none";
+    loadGame();
+  }, 100);
 });
 
 const loadGame = () => {
