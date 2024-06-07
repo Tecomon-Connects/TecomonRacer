@@ -114,24 +114,33 @@ const loadGame = () => {
   let car1 = imgCar(context_object, car1Img, car1X, car1Y);
   let car2 = imgCar(context_object, car2Img, car2X, car2Y);
 
+  let buttonWidth = 120;
+  if (context_object.canvas.width < 500) {
+    buttonWidth = 200;
+  }
+
   let button1 = interactive_circle(
     context_object,
-    context_object.canvas.width - 80 * context_object.scale,
-    context_object.canvas.height - 80 * context_object.scale,
-    120,
+    context_object.canvas.width - 125 * context_object.scale,
+    context_object.canvas.height - 125 * context_object.scale,
+    buttonWidth,
     color1
   );
+
+  console.log(context_object.canvas.width, context_object.canvas.height);
+
   window.addEventListener("resize", () =>
     button1.move(
-      context_object.canvas.width - 80,
-      context_object.canvas.height - 80
+      context_object.canvas.width - 125,
+      context_object.canvas.height - 125
     )
   );
+
   let button2 = interactive_circle(
     context_object,
-    0 + 80 * context_object.scale,
-    0 + 80 * context_object.scale,
-    120,
+    0 + 125 * context_object.scale,
+    0 + 125 * context_object.scale,
+    buttonWidth,
     color2
   );
   grabbable.push(button1, button2);
