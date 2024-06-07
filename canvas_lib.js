@@ -475,7 +475,7 @@ export function getCanvas(id, width, height) {
 
     //Streckenhintergrund
     context.save();
-    context.fillStyle = "#424242";
+    context.fillStyle = "#6F6F6F";
     context.beginPath();
     context.roundRect(
       canvas.width / 2 - canvas.width / 3,
