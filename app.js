@@ -13,7 +13,6 @@ if ("serviceWorker" in navigator) {
 if ("serviceWorker" in navigator && "BeforeInstallPromptEvent" in window) {
   window.addEventListener("beforeinstallprompt", (event) => {
     console.log("beforeinstallprompt fired");
-    event.prompt();
   });
 }
 
