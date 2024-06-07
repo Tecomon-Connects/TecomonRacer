@@ -6,7 +6,9 @@ import car1Url from "./images/car1.png";
 import car2Url from "./images/car2.png";
 import logoUrl from "./images/logo.png";
 
-navigator.serviceWorker.register("service-worker.js");
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}
 
 var player1 = "";
 var player2 = "";
