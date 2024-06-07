@@ -28,14 +28,14 @@
         "src": "/screen-wide.png",
         "sizes": "2048x1536",
         "type": "image/png",
-        "description": "A screenshot of the game",
-        "form_factor": "wide"
+        "label": "A screenshot of the game",
+        "form_factor":"wide"
     },
     {
         "src": "/screen-tall.png",
         "sizes": "750x1334",
         "type": "image/png",
-        "description": "A screenshot of the game"
+        "label": "A screenshot of the game"
     }
 ],
 "prefer_related_applications": false

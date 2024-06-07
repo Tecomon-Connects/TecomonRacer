@@ -10,19 +10,19 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/service-worker.js");
 }
 
-if ("serviceWorker" in navigator && "BeforeInstallPromptEvent" in window) {
-  window.addEventListener("load", () => {
-    // Wait for the beforeinstallprompt event
-    window.addEventListener("beforeinstallprompt", (event) => {
-      console.log("beforeinstallprompt fired");
-      // Prevent the default "Add to Home Screen" prompt
-      event.preventDefault();
+// if ("serviceWorker" in navigator && "BeforeInstallPromptEvent" in window) {
+//   window.addEventListener("load", () => {
+//     // Wait for the beforeinstallprompt event
+//     window.addEventListener("beforeinstallprompt", (event) => {
+//       console.log("beforeinstallprompt fired");
+//       // Prevent the default "Add to Home Screen" prompt
+//       event.preventDefault();
 
-      // Automatically show the "Add to Home Screen" prompt on page load
-      event.prompt();
-    });
-  });
-}
+//       // Automatically show the "Add to Home Screen" prompt on page load
+//       event.prompt();
+//     });
+//   });
+// }
 
 var player1 = "";
 var player2 = "";
