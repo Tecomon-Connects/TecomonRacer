@@ -6,7 +6,9 @@ import car1Url from "./images/car1.png";
 import car2Url from "./images/car2.png";
 import logoUrl from "./images/logo.png";
 
-navigator.serviceWorker.register("service-worker.js");
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}
 
 var player1 = "";
 var player2 = "";
@@ -60,9 +62,12 @@ document.getElementById("playerForm").addEventListener("submit", (event) => {
   event.preventDefault();
   player1 = document.getElementById("player1").value;
   player2 = document.getElementById("player2").value;
-  // Hier können Sie den Code hinzufügen, um die Spielernamen zu speichern und das Spiel zu starten
-  document.getElementById("startScreen").style.display = "none";
-  loadGame();
+
+  // Dirty fix to prevent the rendering of the game before the keyboard is closed
+  setTimeout(() => {
+    document.getElementById("startScreen").style.display = "none";
+    loadGame();
+  }, 100);
 });
 
 const loadGame = () => {
@@ -111,24 +116,33 @@ const loadGame = () => {
   let car1 = imgCar(context_object, car1Img, car1X, car1Y);
   let car2 = imgCar(context_object, car2Img, car2X, car2Y);
 
+  let buttonWidth = 120;
+  if (context_object.canvas.width < 500) {
+    buttonWidth = 200;
+  }
+
   let button1 = interactive_circle(
     context_object,
-    context_object.canvas.width - 80 * context_object.scale,
-    context_object.canvas.height - 80 * context_object.scale,
-    120,
+    context_object.canvas.width - 125 * context_object.scale,
+    context_object.canvas.height - 125 * context_object.scale,
+    buttonWidth,
     color1
   );
+
+  console.log(context_object.canvas.width, context_object.canvas.height);
+
   window.addEventListener("resize", () =>
     button1.move(
-      context_object.canvas.width - 80,
-      context_object.canvas.height - 80
+      context_object.canvas.width - 125,
+      context_object.canvas.height - 125
     )
   );
+
   let button2 = interactive_circle(
     context_object,
-    0 + 80 * context_object.scale,
-    0 + 80 * context_object.scale,
-    120,
+    0 + 125 * context_object.scale,
+    0 + 125 * context_object.scale,
+    buttonWidth,
     color2
   );
   grabbable.push(button1, button2);
